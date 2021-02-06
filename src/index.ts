@@ -19,13 +19,15 @@ export const handler = (
   });
 
   for (const event of keys(handlers)) {
-    const callback: any = handlers[event];
-    if (callback) {
-      webhooks.on(event, ev => callback(ev.payload));
-    }
+    const callback: any = handlers[event]!;
+    webhooks.on(event, ev => callback(ev.payload));
   }
 
   return async (req: Request, res: Response) => {
+    if (req.method !== 'POST') {
+      res.status(404).send();
+      return;
+    }
     try {
       await webhooks.verifyAndReceive({
         id: req.headers['x-github-delivery'] || '',
@@ -35,8 +37,14 @@ export const handler = (
       });
       res.status(200).send('OK');
     } catch (err) {
-      console.log(err);
-      res.status(403).send('invalid signature');
+      if (
+        err.message ===
+        '[@octokit/webhooks] secret, eventPayload & signature required'
+      ) {
+        res.status(422).send('missing required header(s)');
+      } else {
+        res.status(403).send('invalid signature');
+      }
     }
   };
 };
