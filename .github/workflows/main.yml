@@ -47,7 +47,7 @@ jobs:
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
 
-      - name: Buiod
+      - name: Build
         run: yarn build
       
       - name: Release
