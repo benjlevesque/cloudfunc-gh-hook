@@ -30,10 +30,28 @@ jobs:
 
       - name: Build
         run: yarn build
+  release: 
+    needs: build
+    name: Release
+    if: ${{ github.ref == 'refs/heads/main'}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
+      - name: Use Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install deps and build (with cache)
+        uses: bahmutov/npm-install@v1
+
+      - name: Buiod
+        run: yarn build
+      
       - name: Release
         uses: cycjimmy/semantic-release-action@v2
-        if: ${{ github.ref == 'refs/heads/main'}}
         with:
           semantic_version: 17
           branches: |
