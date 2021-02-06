@@ -30,3 +30,17 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: Release
+        uses: cycjimmy/semantic-release-action@v2
+        if: ${{ github.ref == 'refs/heads/main'}}
+        with:
+          semantic_version: 17
+          branches: |
+            [
+              '+([0-9])?(.{+([0-9]),x}).x',
+              'main',
+            ]
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
