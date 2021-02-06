@@ -1,6 +1,6 @@
 #  cloudfunc-gh-hook
 
-Run a Github webhook on Google Cloud functions. This is a wrapper around  [https://github.com/octokit/webhooks.js])(@octokit/webhook)'s `verifyAndReceive` method  to simplify configuration specific to Google Cloud function.
+Run a Github webhook on Google Cloud functions. This is a wrapper around  [@octokit/webhook](https://github.com/octokit/webhooks.js)'s `verifyAndReceive` method  to simplify configuration specific to Google Cloud function.
 
 ## Installation
 
